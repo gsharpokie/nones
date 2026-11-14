@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who Are the Nones?</title>
+<meta name="description" content="Three in ten American adults have no religion. Guess how many, who they are, and what they believe, then see the survey data.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gsharpokie.github.io/nones/">
+<meta property="og:title" content="Who Are the Nones?">
+<meta property="og:description" content="Three in ten American adults have no religion. Guess how many, who they are, and what they believe, then see the survey data.">
+<meta property="og:image" content="https://gsharpokie.github.io/nones/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Who Are the Nones? A bar showing U.S. adults by religious identity: Christian, other religions, atheist, agnostic, and nothing in particular.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@gsharpokie">
+<meta name="twitter:title" content="Who Are the Nones?">
+<meta name="twitter:description" content="Three in ten American adults have no religion. Guess how many, who they are, and what they believe, then see the survey data.">
+<meta name="twitter:image" content="https://gsharpokie.github.io/nones/preview.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a2350'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23f2c14e' stroke-width='3'/%3E%3Cline x1='10' y1='22' x2='22' y2='10' stroke='%23f2c14e' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@700;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column. Five guesses, each revealed with a single stacked bar or pair of bars on a 0-100% scale.
+   After the guesses: who the nones are, the slowdown, and why surveys disagree. */
+:root {
+  --paper: #f4f3f8; --surface: #ffffff; --ink: #221d38; --muted: #615b7a; --line: #dcd9e7;
+  --you: #c0581d; --actual: #3b3a9e; --chr: #8f8bb8; --oth: #b9a77a; --ath: #22356e; --agn: #3b5fb8; --nip: #7fa6e8;
+  --focus: #c0581d;
+  --display: "Libre Franklin", "Segoe UI", system-ui, sans-serif;
+  --body: Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14121f; --surface: #1d1a2c; --ink: #edebf6; --muted: #aaa5c4; --line: #36314d;
+    --you: #f0935a; --actual: #9b9af0; --chr: #6f6a9c; --oth: #9c8c5e; --ath: #c7d4ff; --agn: #8fa9f0; --nip: #5b7cc0; --focus: #f0935a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14121f; --surface: #1d1a2c; --ink: #edebf6; --muted: #aaa5c4; --line: #36314d;
+  --you: #f0935a; --actual: #9b9af0; --chr: #6f6a9c; --oth: #9c8c5e; --ath: #c7d4ff; --agn: #8fa9f0; --nip: #5b7cc0; --focus: #f0935a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.05rem; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding: 2rem 1rem 3rem; display: grid; gap: 1.6rem; }
+header { display: grid; gap: .45rem; }
+.kicker { font-size: .85rem; color: var(--muted); }
+.kicker a, footer a, .notes a, .prose a { color: var(--ink); }
+h1 { font-family: var(--display); font-weight: 900; font-size: clamp(2.3rem, 8vw, 3.5rem); line-height: 1; margin: 0; letter-spacing: -.02em; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 1.4rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 700; font-size: 1.08rem; margin: 0; }
+.lede { margin: 0; max-width: 62ch; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; display: grid; gap: 1rem; }
+.meta { display: flex; justify-content: space-between; font-size: .85rem; color: var(--muted); }
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--ink); }
+.q { font-size: 1.15rem; font-weight: 600; margin: 0; text-wrap: balance; }
+.guess-row { display: flex; align-items: center; gap: 1rem; }
+.guess-row input { flex: 1; accent-color: var(--you); height: 2rem; }
+.guess-val { font-family: var(--display); font-weight: 900; font-size: 2rem; min-width: 4.5ch; text-align: right; color: var(--you); font-variant-numeric: tabular-nums; }
+.choices { display: grid; gap: .45rem; }
+.choices button { font: inherit; text-align: left; padding: .6rem .9rem; border-radius: 10px; border: 1px solid var(--muted); background: transparent; color: var(--ink); cursor: pointer; }
+.choices button[aria-pressed="true"] { border: 2px solid var(--ink); font-weight: 600; }
+.choices button.right { border: 2px solid var(--actual); }
+.choices button:disabled { cursor: default; }
+.primary { font: inherit; font-weight: 600; padding: .65rem 1.2rem; border-radius: 10px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; }
+.linkish { font: inherit; font-size: .9rem; background: none; border: none; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.bars { display: grid; gap: .7rem; }
+.brow { display: grid; grid-template-columns: 9.5rem 1fr; gap: .6rem; align-items: center; }
+.brow .lab { font-size: .9rem; line-height: 1.25; }
+.track { position: relative; height: 1.9rem; background: var(--line); border-radius: 5px; overflow: hidden; display: flex; }
+.seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; font-variant-numeric: tabular-nums; }
+.val { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; font-weight: 700; font-size: .9rem; font-variant-numeric: tabular-nums; padding-left: .4rem; }
+.take { margin: 0; max-width: 62ch; }
+.legend { display: flex; flex-wrap: wrap; gap: .35rem 1rem; font-size: .85rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: .35rem; }
+.sw { width: .85rem; height: .85rem; border-radius: 2px; display: inline-block; }
+.prose p, .prose ol { margin: 0 0 .7rem; max-width: 64ch; }
+.prose li { margin-bottom: .4rem; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .95rem; }
+th, td { text-align: right; padding: .4rem .5rem; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+th { font-size: .8rem; color: var(--muted); font-weight: 600; }
+.notes { font-size: .88rem; color: var(--muted); }
+footer { font-size: .85rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media (max-width: 560px) { .card { padding: 1.1rem; } .brow { grid-template-columns: 1fr; gap: .2rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">By Gwen Sharp · <a href="https://x.com/gsharpokie">@gsharpokie</a></div>
+    <h1>Who Are the Nones?</h1>
+    <p class="lede">When surveys ask Americans their religion, a growing share answer atheist, agnostic, or “nothing in particular.” Researchers call them the religious “nones.” Make five guesses about who they are and what they believe, then see what the largest U.S. survey of religion found.</p>
+  </header>
+
+  <section class="card" id="quiz" aria-live="polite">
+    <div class="meta"><span id="counter"></span><button class="linkish" id="skip">Skip to all the answers</button></div>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <p class="q" id="qText"></p>
+    <div id="sliderBlock" class="hidden">
+      <label for="slider" class="hidden">Your guess</label>
+      <div class="guess-row"><input type="range" id="slider" min="0" max="100" value="50" aria-label="Your guess, in percent"><output id="sv" class="guess-val" for="slider">50%</output></div>
+    </div>
+    <div class="choices hidden" id="choices"></div>
+    <div id="reveal" class="hidden" style="display:grid;gap:1rem">
+      <div class="bars" id="rbars"></div>
+      <p class="take" id="take"></p>
+    </div>
+    <div><button class="primary" id="lock">Lock in my guess</button><button class="primary hidden" id="next">Next question</button></div>
+  </section>
+
+  <section class="card hidden after">
+    <h2>U.S. adults by religious identity, 2023–24</h2>
+    <div class="legend" aria-hidden="true">
+      <span><span class="sw" style="background:var(--chr)"></span>Christian</span>
+      <span><span class="sw" style="background:var(--oth)"></span>Other religions</span>
+      <span><span class="sw" style="background:var(--ath)"></span>Atheist</span>
+      <span><span class="sw" style="background:var(--agn)"></span>Agnostic</span>
+      <span><span class="sw" style="background:var(--nip)"></span>Nothing in particular</span>
+    </div>
+    <div class="bars" id="landscape"></div>
+    <p class="take" style="margin-top:-.3rem">The nones are 29% of adults. Most of them aren’t atheists. About two-thirds say their religion is “nothing in particular,” and most of that group believes in God or a universal spirit.</p>
+  </section>
+
+  <section class="card hidden after">
+    <h2>All five answers</h2>
+    <div id="answers" style="display:grid;gap:.6rem"></div>
+  </section>
+
+  <section class="card prose hidden after">
+    <h2>The fuller picture</h2>
+    <p><strong>The rise may have stalled, for now.</strong> The unaffiliated share grew from 16% in 2007 to 29% in 2023–24. But Pew’s yearly surveys have found it at about 28% to 31% every year since 2019, and the Christian share has held between 60% and 64%. Pew’s researchers write that time will tell whether this is “the beginning of a lasting shift.”</p>
+    <p><strong>Why they expect more change anyway.</strong> Each new generation has entered adulthood less religious than the one before, and people mostly don’t become more religious as they age. In the General Social Survey, 6% of Americans born in the 1940s or earlier had no religion when surveyed as young adults in the early 1970s. For those born in the early 2000s, surveyed in the early 2020s, it was 36%. For the share to stay flat, Pew notes, today’s young adults would have to become more religious as they age, or something else would need to change.</p>
+    <p><strong>Not belonging isn’t the same as not believing.</strong> Most nones believe in God or a universal spirit, and many believe in a soul or something spiritual beyond the natural world. Sociologist Grace Davie described a similar pattern in Britain as “believing without belonging.” Asking whether people <em>belong</em> to a religion, <em>believe</em> its teachings, or <em>behave</em> religiously (praying, attending services) can give three different answers about how religious a country is.</p>
+    <p><strong>Surveys don’t agree on the exact number.</strong> In 2022, the General Social Survey found 27% unaffiliated, Gallup about 20%, and Pew 31%. The surveys ask the question differently and reach people in different ways, by phone, online, on paper, or in person. Pew changed from phone interviews to online and paper surveys in its newest study because phone response rates had fallen so far. All three agree on the direction: the share with no religion is far higher than it was a generation ago.</p>
+    <h3>Talk about it</h3>
+    <ol>
+      <li>Which guess was furthest off? What image of a “none” were you picturing?</li>
+      <li>Is someone who believes in God but never attends services religious? Is someone who attends every week but isn’t sure God exists? What does your answer say about how to measure religion?</li>
+      <li>Young adults are much more likely than older adults to be nones. Is that because people become more religious as they age, or because each generation is different? How could researchers tell those apart?</li>
+      <li>Why might someone who believes in God still answer “nothing in particular” when asked their religion?</li>
+      <li>Three major surveys gave three different numbers for the same year. Does that mean surveys can’t be trusted? What would you want to know about each survey before choosing one?</li>
+    </ol>
+  </section>
+
+  <section class="notes prose hidden after">
+    <h3>About the data</h3>
+    <p>Most figures come from Pew Research Center’s 2023–24 Religious Landscape Study, a survey of 36,908 U.S. adults conducted online, on paper, and by phone from July 2023 to March 2024 (margin of error ±0.8 points). Birth-cohort figures and the 2022 survey comparison come from Pew’s analysis of the General Social Survey and Gallup in the same report.</p>
+    <p><strong>Sources:</strong> Pew Research Center. 2025. <a href="https://www.pewresearch.org/religion/2025/02/26/decline-of-christianity-in-the-us-has-slowed-may-have-leveled-off/"><em>Decline of Christianity in the U.S. Has Slowed, May Have Leveled Off</em></a>, including <a href="https://www.pewresearch.org/religion/2025/02/26/religious-and-spiritual-beliefs/">“Religious and Spiritual Beliefs”</a> and <a href="https://www.pewresearch.org/religion/2025/02/26/appendix-c-comparing-the-centers-religion-trends-with-those-of-other-major-surveys/">“Appendix C: Comparing the Center’s Religion Trends with Those of Other Major Surveys.”</a> Davie, Grace. 1994. <em>Religion in Britain since 1945: Believing without Belonging</em>. Blackwell.</p>
+    <h3>How to cite this page</h3>
+    <p>Sharp, Gwen. 2026. “Who Are the Nones?” <a href="https://gsharpokie.github.io/nones/">https://gsharpokie.github.io/nones/</a></p>
+    <p>Spot an error? <a href="https://github.com/gsharpokie/nones/issues/new">Suggest a correction</a> (needs a free GitHub account).</p>
+  </section>
+
+  <footer>Created by Gwen Sharp (<a href="https://x.com/gsharpokie">@gsharpokie</a>). Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</footer>
+</div>
+
+<script>
+// All figures: Pew Research Center, 2023-24 Religious Landscape Study, unless noted.
+const LANDSCAPE = [["Christian", 62, "var(--chr)"], ["Other religions", 7, "var(--oth)"], ["Atheist", 5, "var(--ath)"], ["Agnostic", 6, "var(--agn)"], ["Nothing in particular", 19, "var(--nip)"]];
+const Q = [
+  { type: "slider", q: "What percentage of U.S. adults have no religious affiliation (atheist, agnostic, or “nothing in particular”)?",
+    rows: () => [["Your guess", G(0), "var(--you)"], ["2007", 16, "var(--actual)"], ["2014", 23, "var(--actual)"], ["2023–24", 29, "var(--actual)"]],
+    take: g => `${miss(g, 29)} <strong>29%</strong> of adults are nones, up from 16% in 2007. That’s more than the share of adults who are Catholic (19%).` },
+  { type: "choice", q: "Of all the nones, about how many call themselves atheists?",
+    opts: ["Most of them", "About half", "About a third", "Fewer than one in five"], a: 3,
+    rows: () => [["All U.S. adults", null, null, [["Atheist", 5, "var(--ath)"], ["Agnostic", 6, "var(--agn)"], ["Nothing in particular", 19, "var(--nip)"]]]],
+    take: () => `Atheists are <strong>5%</strong> of adults, about one in six nones. Another 6% are agnostic. The biggest group, <strong>19%</strong> of all adults, say their religion is “nothing in particular.” (The three don’t add to exactly 29 because of rounding.)` },
+  { type: "slider", q: "Among people whose religion is “nothing in particular,” what percentage believe in God or a universal spirit?",
+    rows: () => [["Your guess", G(2), "var(--you)"], ["Nothing in particular", 69, "var(--nip)"], ["Agnostics", 43, "var(--agn)"], ["Atheists", 7, "var(--ath)"], ["All U.S. adults", 83, "var(--chr)"]],
+    take: g => `${miss(g, 69)} <strong>69%</strong> do. Even 43% of agnostics and 7% of atheists say they believe in God or a universal spirit, perhaps defining it in their own way. Having no religion usually means not <em>belonging</em> to one, not necessarily not believing.` },
+  { type: "slider", q: "What percentage of adults ages 18 to 24 have no religious affiliation?",
+    rows: () => [["Your guess", G(3), "var(--you)"], ["Ages 18–24", 43, "var(--actual)"], ["Ages 74 and older", 13, "var(--actual)"]],
+    take: g => `${miss(g, 43)} <strong>43%</strong> of the youngest adults are nones, compared with 13% of those 74 and older. Only 46% of 18- to 24-year-olds identify as Christian, compared with 80% of the oldest group.` },
+  { type: "choice", q: "Since about 2019, what has happened to the share of Americans with no religion?",
+    opts: ["It has kept rising quickly", "It has stayed about the same", "It has fallen noticeably"], a: 1,
+    rows: () => [["2007", 16, "var(--actual)"], ["2014", 23, "var(--actual)"], ["2019–24 (yearly range)", null, null, null, [28, 31]]],
+    take: () => `It has <strong>leveled off</strong>, at least for now. Pew’s yearly surveys have found 28% to 31% every year from 2019 to 2024, after decades of growth. The Christian share has also held steady, between 60% and 64%.` }
+];
+const $ = id => document.getElementById(id);
+const guesses = new Array(Q.length).fill(null);
+let idx = 0, choice = null;
+const G = i => guesses[i];
+function miss(g, a) { if (g == null) return ""; const d = Math.abs(g - a); return d <= 3 ? "<strong>Very close.</strong>" : `You guessed ${g}%, ${d} points ${g > a ? "too high" : "too low"}.`; }
+
+function rowHTML(r) {
+  const [lab, v, color, segs, range] = r;
+  let inner = "";
+  if (segs) inner = segs.map(([n, s, c]) => `<div class="seg" style="width:${s}%;background:${c}" title="${n}: ${s}%">${s >= 5 ? s + "%" : ""}</div>`).join("");
+  else if (range) inner = `<div class="seg" style="width:${range[0]}%;background:var(--actual)"></div><div class="seg" style="width:${range[1] - range[0]}%;background:var(--actual);opacity:.45"></div><div class="val" style="left:${range[1]}%">${range[0]}–${range[1]}%</div>`;
+  else if (v != null) inner = `<div class="seg" style="width:${v}%;background:${color}"></div><div class="val" style="left:${v}%">${v}%</div>`;
+  else inner = `<div class="val" style="left:0;color:var(--muted)">No guess</div>`;
+  const aria = segs ? segs.map(([n, s]) => `${n} ${s}%`).join(", ") : range ? `${range[0]} to ${range[1]} percent` : v == null ? "no guess" : `${v} percent`;
+  return `<div class="brow"><span class="lab">${lab}</span><div class="track" role="img" aria-label="${lab}: ${aria}">${inner}</div></div>`;
+}
+function render() {
+  if (idx >= Q.length) return finish();
+  const q = Q[idx]; choice = null;
+  $("counter").textContent = `Question ${idx + 1} of ${Q.length}`;
+  $("bar").style.width = (idx / Q.length * 100) + "%";
+  $("qText").textContent = q.q;
+  $("reveal").classList.add("hidden"); $("next").classList.add("hidden"); $("lock").classList.remove("hidden");
+  $("next").textContent = idx === Q.length - 1 ? "See all the answers" : "Next question";
+  if (q.type === "slider") {
+    $("sliderBlock").classList.remove("hidden"); $("choices").classList.add("hidden");
+    $("slider").disabled = false; $("slider").value = 50; $("sv").textContent = "50%"; $("lock").disabled = false;
+  } else {
+    $("sliderBlock").classList.add("hidden"); $("choices").classList.remove("hidden");
+    $("choices").innerHTML = q.opts.map((o, i) => `<button data-i="${i}" aria-pressed="false">${o}</button>`).join("");
+    document.querySelectorAll("#choices button").forEach(b => b.addEventListener("click", () => {
+      choice = +b.dataset.i; document.querySelectorAll("#choices button").forEach(o => o.setAttribute("aria-pressed", o === b)); $("lock").disabled = false;
+    }));
+    $("lock").disabled = true;
+  }
+}
+function reveal() {
+  const q = Q[idx];
+  if (q.type === "slider") { guesses[idx] = +$("slider").value; $("slider").disabled = true; }
+  else { guesses[idx] = choice; document.querySelectorAll("#choices button").forEach((b, j) => { b.disabled = true; if (j === q.a) b.classList.add("right"); }); }
+  $("rbars").innerHTML = q.rows().map(rowHTML).join("");
+  let t = q.take(guesses[idx]);
+  if (q.type === "choice") t = (choice === q.a ? "<strong>Right.</strong> " : "<strong>Not quite.</strong> ") + t;
+  $("take").innerHTML = t;
+  $("reveal").classList.remove("hidden"); $("lock").classList.add("hidden"); $("next").classList.remove("hidden"); $("next").focus();
+}
+function finish() {
+  $("quiz").classList.add("hidden");
+  document.querySelectorAll(".after").forEach(e => e.classList.remove("hidden"));
+  $("landscape").innerHTML = rowHTML(["All U.S. adults", null, null, LANDSCAPE]);
+  $("answers").innerHTML = Q.map((q, i) => `<h3 style="font-size:1rem;margin-top:.4rem">${i + 1}. ${q.q}</h3><div class="bars">${q.rows().filter(r => !(r[0] === "Your guess" && guesses[i] == null)).map(rowHTML).join("")}</div>`).join("");
+  document.querySelector(".after").scrollIntoView({ block: "start" });
+}
+$("slider").addEventListener("input", e => $("sv").textContent = e.target.value + "%");
+$("lock").addEventListener("click", reveal);
+$("next").addEventListener("click", () => { idx++; render(); });
+$("skip").addEventListener("click", () => { idx = Q.length; finish(); });
+if (location.hash === "#answers") { idx = Q.length; finish(); } else render();
+</script>
+</body>
+</html>
