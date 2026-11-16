@@ -27,7 +27,7 @@
    After the guesses: who the nones are, the slowdown, and why surveys disagree. */
 :root {
   --paper: #f4f3f8; --surface: #ffffff; --ink: #221d38; --muted: #615b7a; --line: #dcd9e7;
-  --you: #c0581d; --actual: #3b3a9e; --chr: #8f8bb8; --oth: #b9a77a; --ath: #22356e; --agn: #3b5fb8; --nip: #7fa6e8;
+  --you: #c0581d; --actual: #3b3a9e; --chr: #8f8bb8; --oth: #b9a77a; --ath: #22356e; --agn: #3b5fb8; --nip: #7fa6e8; --chr-on: #221d38; --oth-on: #221d38; --nip-on: #221d38;
   --focus: #c0581d;
   --display: "Libre Franklin", "Segoe UI", system-ui, sans-serif;
   --body: Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -36,12 +36,12 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: #14121f; --surface: #1d1a2c; --ink: #edebf6; --muted: #aaa5c4; --line: #36314d;
-    --you: #f0935a; --actual: #9b9af0; --chr: #6f6a9c; --oth: #9c8c5e; --ath: #c7d4ff; --agn: #8fa9f0; --nip: #5b7cc0; --focus: #f0935a; color-scheme: dark;
+    --you: #f0935a; --actual: #9b9af0; --chr: #6f6a9c; --oth: #9c8c5e; --ath: #c7d4ff; --agn: #8fa9f0; --nip: #6385c8; --chr-on: #ffffff; --oth-on: #14121f; --ath-on: #14121f; --agn-on: #14121f; --nip-on: #14121f; --actual-on: #14121f; --focus: #f0935a; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #14121f; --surface: #1d1a2c; --ink: #edebf6; --muted: #aaa5c4; --line: #36314d;
-  --you: #f0935a; --actual: #9b9af0; --chr: #6f6a9c; --oth: #9c8c5e; --ath: #c7d4ff; --agn: #8fa9f0; --nip: #5b7cc0; --focus: #f0935a; color-scheme: dark;
+  --you: #f0935a; --actual: #9b9af0; --chr: #6f6a9c; --oth: #9c8c5e; --ath: #c7d4ff; --agn: #8fa9f0; --nip: #6385c8; --chr-on: #ffffff; --oth-on: #14121f; --ath-on: #14121f; --agn-on: #14121f; --nip-on: #14121f; --actual-on: #14121f; --focus: #f0935a; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -90,6 +90,9 @@ th { font-size: .8rem; color: var(--muted); font-weight: 600; }
 footer { font-size: .85rem; color: var(--muted); }
 .hidden { display: none !important; }
 @media (max-width: 560px) { .card { padding: 1.1rem; } .brow { grid-template-columns: 1fr; gap: .2rem; } }
+
+/* Main landmark for screen readers; keeps the same spacing as before. */
+.wrap-main { display: grid; gap: inherit; min-width: 0; }
 </style>
 </head>
 <body>
@@ -99,6 +102,7 @@ footer { font-size: .85rem; color: var(--muted); }
     <h1>Who Are the Nones?</h1>
     <p class="lede">When surveys ask Americans their religion, a growing share answer atheist, agnostic, or “nothing in particular.” Researchers call them the religious “nones.” Make five guesses about who they are and what they believe, then see what the largest U.S. survey of religion found.</p>
   </header>
+  <main class="wrap-main">
 
   <section class="card" id="quiz" aria-live="polite">
     <div class="meta"><span id="counter"></span><button class="linkish" id="skip">Skip to all the answers</button></div>
@@ -159,6 +163,7 @@ footer { font-size: .85rem; color: var(--muted); }
     <p>Spot an error? <a href="https://github.com/gsharpokie/nones/issues/new">Suggest a correction</a> (needs a free GitHub account).</p>
   </section>
 
+  </main>
   <footer>Created by Gwen Sharp (<a href="https://x.com/gsharpokie">@gsharpokie</a>). Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</footer>
 </div>
 
@@ -193,7 +198,7 @@ function miss(g, a) { if (g == null) return ""; const d = Math.abs(g - a); retur
 function rowHTML(r) {
   const [lab, v, color, segs, range] = r;
   let inner = "";
-  if (segs) inner = segs.map(([n, s, c]) => `<div class="seg" style="width:${s}%;background:${c}" title="${n}: ${s}%">${s >= 5 ? s + "%" : ""}</div>`).join("");
+  if (segs) inner = segs.map(([n, s, c]) => `<div class="seg" style="width:${s}%;background:${c};color:${c.replace(")", "-on, #fff)")}" title="${n}: ${s}%">${s >= 5 ? s + "%" : ""}</div>`).join("");
   else if (range) inner = `<div class="seg" style="width:${range[0]}%;background:var(--actual)"></div><div class="seg" style="width:${range[1] - range[0]}%;background:var(--actual);opacity:.45"></div><div class="val" style="left:${range[1]}%">${range[0]}–${range[1]}%</div>`;
   else if (v != null) inner = `<div class="seg" style="width:${v}%;background:${color}"></div><div class="val" style="left:${v}%">${v}%</div>`;
   else inner = `<div class="val" style="left:0;color:var(--muted)">No guess</div>`;
